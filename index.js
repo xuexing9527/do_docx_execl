@@ -3,7 +3,7 @@ const fs = require('fs')
 
 // 读取内容
 function readWord(name, errArr, className, dataArr) {
-    const zip = new admZip(`./words/${className}/words/${name}`);
+    const zip = new admZip(`./docxs/${className}/docxs/${name}`);
     const outputName = `./output/${className}/${name}`
     zip.extractAllTo(outputName, true);
     // 提取内容
@@ -22,7 +22,7 @@ function readWord(name, errArr, className, dataArr) {
 }
 
 function fsRead(className, classDataWrite) {
-    fs.readdir(`./words/${className}/words`, (err, files) => {
+    fs.readdir(`./docxs/${className}/docxs`, (err, files) => {
         if (err) throw err
         // console.log(files)
         // console.log(files.length)
