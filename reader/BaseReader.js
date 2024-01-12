@@ -7,7 +7,7 @@
  * 
  */
 
-class BaseReader () {
+class BaseReader {
     constructor ({ type, path }) {
         // 文件类型
         this.type = type
@@ -24,3 +24,5 @@ class BaseReader () {
     getData () {
     }
 }
+
+module.exports = BaseReader

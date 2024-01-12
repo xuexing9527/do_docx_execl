@@ -5,7 +5,7 @@
  * 根据type判断对谁（word/excel）写
  * 
  */
-class BaseWriter () {
+class BaseWriter {
     constructor (type) {
         this.type = type
     }
