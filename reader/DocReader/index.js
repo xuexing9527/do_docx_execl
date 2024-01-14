@@ -55,14 +55,16 @@ class DocReader extends BaseReader {
     read (path) {
 
         this.getFileNames((path) => {
-            console.log(path)
-            // // 此处应判断文件类型为docx，做兼容处理，以防报错
             const zip = new admZip(path);
-            // 解压docx文件到目录 outputPath
-            zip.extractAllTo(this.outputPath, true);
-            // 提取内容
-            let contentXml = zip.readAsText("word/document.xml");
-            console.log(contentXml)
+            // // 此处应判断文件类型为docx，做兼容处理，以防报错
+            if ((path.indexOf('docx') > 0)) {
+                // 解压docx文件到目录 outputPath
+                zip.extractAllTo(this.outputPath, true);
+                // 提取内容
+                let contentXml = zip.readAsText("word/document.xml");
+                // console.log(contentXml)
+            }
+
         })
         // fs.readdir(this.path, (err, files) => {
         //     if (err) throw err
