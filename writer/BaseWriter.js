@@ -9,14 +9,6 @@ class BaseWriter {
     constructor (type) {
         this.type = type
     }
-
-    // 插入内容
-    insertContent () {
-
-    }
-
-    // 写入新文件
-    writeInNewFile () {
-
-    }
 }
+
+module.exports = BaseWriter
