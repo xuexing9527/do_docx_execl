@@ -1,7 +1,9 @@
 const DocWriter = require('../../writer/DocWriter')
+const docxWriter = new DocWriter({ path: './data/docEngineeringCostClassTwo/test.docx', output: './data/docEngineeringCostClassTwo/test-modified.docx' })
 
-// console.log(DocWriter)
-const docxWriter = new DocWriter({ path: './data/docEngineeringCostClassTwo/test.docx' })
+async function main () {
+    await docxWriter.insertContent(`指导教师1：丰年2678    This is the content I want to insert at the beginning. ${new Date().getTime()}`)
+    await docxWriter.insertContent(`指导教师2：丰年2678    This is the content I want to insert at the beginning. ${new Date().getTime()}`)
+}
 
-// docxWriter.insertContent('2024年1月15日00:25:53')
-// docxWriter.save()
+main()
