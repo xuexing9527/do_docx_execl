@@ -1,7 +1,16 @@
 {
   "dependencies": {
+    "chardet": "^2.0.0",
+    "docx": "^8.5.0",
+    "docxtemplater": "^3.43.1",
+    "mammoth": "^1.6.0",
     "node-xlsx": "^0.23.0",
     "officegen": "^0.6.5",
-    "textract": "^2.5.0"
+    "path": "^0.12.7",
+    "pizzip": "^3.1.4",
+    "textract": "^2.5.0",
+    "unzipper": "^0.10.14",
+    "xml2js": "^0.6.2",
+    "xmldom": "^0.6.0"
   }
 }
