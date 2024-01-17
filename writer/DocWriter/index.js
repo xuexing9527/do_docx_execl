@@ -3,46 +3,29 @@ const fs = require('fs')
 const JSZip = require("jszip");
 
 class DocWriter extends BaseWriter {
-    constructor(config = { path: '', output: '' }) {
+    constructor(config = { output: '', documentXml: '' }) {
         super({ type: 'docx' })
-        const { path, output } = config
-        this.path = path
+        const { output } = config
         this.output = output || `${this.path}-modified.docx`
-        this.zip = null
-        this.documentXml = ''
-        this.modifiedContent = ''
+        this.documentXml = this.documentXml
     }
 
-    async read() {
-        try {
-            // 读取现有 Word 文档
-            const fileBuffer = fs.readFileSync(this.path);
-            // 使用 JSZip 解压缩文档
-            this.zip = await JSZip.loadAsync(fileBuffer);
-            this.documentXml = await this.zip.file("word/document.xml").async("text");
-        } catch (error) {
-            console.error("Error manipulating docx:", error);
-        }
-    }
-
-    async insertContent (txt) {
-        try {
-            // 此处每次都read，避免多次插入被覆盖
-            await this.read()
-            // 此处可定义多模版
-            const contentToInsert = `<w:p><w:r><w:t>${txt}</w:t><br/></w:r></w:p>`
-            // 在文档末尾插入要添加的内容，可以定义位置，暂定开头，结尾
-            this.modifiedContent = this.documentXml.replace(/(<\/w:body><\/w:document>)/, `${contentToInsert}$1`);
-            await this.save()
-        } catch (error) {
-            console.error("Error manipulating docx:", error);
-        }
-    }
-
-    async save(outputPath = this.output) {
+    /**
+     * 
+     * 写入，要么写入reader读取后的 zip 文件中，要么写入新的文档。
+     * 为了保证格式的统一，建议写入 zip 原文件中，并打包 file 应该为 传入的 zip 中的file
+     * 写的内容 docxXml  写到哪 zip  存到哪 outputPath
+     * @param {*} docxXml
+     * @param {*} zip
+     * @param {*} outputPath 
+     */
+    async write (docxXml, zip, outputPath = this.output) {
         // 使用 JSZip 更新文档内容
-        this.zip.file("word/document.xml", this.modifiedContent);
-        const updatedBuffer = await this.zip.generateAsync({ type: "nodebuffer" });
+
+        // 创建一个新文档，或者接收reader读取的文档 【此处如不用初始文档，是否会影响原格式？】
+        const xml = docxXml !== undefined ? docxXml : this.documentXml
+        zip.file("word/document.xml", xml);
+        const updatedBuffer = await zip.generateAsync({ type: "nodebuffer" });
         // 将修改后的内容保存为新文档
         fs.writeFileSync(outputPath, updatedBuffer);
         console.log("Content inserted successfully.");
