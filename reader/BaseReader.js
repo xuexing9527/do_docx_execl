@@ -8,11 +8,9 @@
  */
 
 class BaseReader {
-    constructor ({ type, path }) {
+    constructor ({ type }) {
         // 文件类型
         this.type = type
-        // 文件地址
-        this.path = path
     }
 
     // 读，异步操作

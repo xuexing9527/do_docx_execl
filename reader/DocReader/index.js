@@ -4,11 +4,10 @@ const fs = require('fs')
  
 class DocReader extends BaseReader {
 
-    constructor (config = { path: '', outputPath: '' }) {
-        super({ type: 'doc', path: config.path })
-        this.outputPath = config.outputPath
-        this.fileList = []
-        this.existingDoc = this.existingDoc || {}
+    constructor (config = { path: '' }) {
+        super({ type: 'docx', path: config.path })
+        // this.fileList = []
+        // this.existingDoc = this.existingDoc || {}
     }
 
     // 支持多级目录，暂只支持平级目录，不存储不同级目录文件名
