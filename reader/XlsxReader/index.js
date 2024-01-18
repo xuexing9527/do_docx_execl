@@ -1,13 +1,19 @@
 const BaseReader = require('../BaseReader')
-const admZip = require('adm-zip')
 const fs = require('fs')
+const ExcelJS = require('exceljs');
+const { timeStamp } = require('console');
  
-class DocReader extends BaseReader {
+class XlsxReader extends BaseReader {
 
     constructor (config = { path: '' }) {
         super({ type: 'xlsx', path: config.path })
-        this.fileList = []
+        const { path } = config
+        this.path = path
+        this.workbook = new ExcelJS.Workbook()
+        this.worksheetList = []
+        this.worksheetDataList = []
     }
+
 
     // 支持多级目录，暂只支持平级目录，不存储不同级目录文件名
      getFileNames (callback) {
@@ -51,22 +57,31 @@ class DocReader extends BaseReader {
 
     }
 
-    read (path) {
+    async read() {
+        await this.workbook.xlsx.readFile(this.path)
 
-        this.getFileNames((path) => {
-            const zip = new admZip(path);
-            // // 此处应判断文件类型为docx，做兼容处理，以防报错
-            if ((path.indexOf('docx') > 0)) {
-                // 解压docx文件到目录 outputPath
-                zip.extractAllTo(this.outputPath, true);
-                // 提取内容
-                let contentXml = zip.readAsText("word/document.xml");
-                // console.log(contentXml)
-            }
-
+        this.workbook.eachSheet((worksheet, sheetId) => {
+            const arr = []
+            worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
+                arr.push(row.values)
+                // // 输出每行的数据
+                // console.log(`Row ${rowNumber}: ${row.values}`)
+            })
+            this.worksheetDataList.push(arr)
         })
 
+        // // 获取第一个工作表
+        // const worksheet = this.workbook.getWorksheet(1);
+        // // 遍历工作表的行
+        // worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
+        //     // 输出每行的数据
+        //     console.log(`Row ${rowNumber}: ${row.values}`)
+        // })
+    }
+
+    getData () {
+        return this.worksheetDataList
     }
 }
 
-module.exports = DocReader
+module.exports = XlsxReader
