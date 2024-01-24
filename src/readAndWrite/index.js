@@ -2,9 +2,10 @@ const XlsxReader = require('../../reader/XlsxReader')
 const DocReader = require('../../reader/DocReader')
 const DocWriter = require('../../writer/DocWriter')
 
-const xlsxReader = new XlsxReader({ path: './data/docEngineeringCostClassTwo/test.xlsx' })
-const docxReader = new DocReader({ path: './data/docEngineeringCostClassTwo/test.docx' })
-const docxWriter = new DocWriter({ output: './data/docEngineeringCostClassTwo/test-modified.docx' })
+// 这里或加 __path__
+const xlsxReader = new XlsxReader({ path: './src/readAndWrite/testData/test.xlsx' })
+const docxReader = new DocReader({ path: './src/readAndWrite/testData/test.docx' })
+const docxWriter = new DocWriter({ output: './src/readAndWrite/testData/test-modified.docx' })
 
 async function main () {
     // 读xlsx
@@ -47,8 +48,8 @@ async function main () {
     }
     const modifiedXml = handleXml(docxXml)
 
-    // // 写
-    // docxWriter.write(modifiedXml, docxReader.zip)
+    // 写
+    docxWriter.write(modifiedXml, docxReader.zip)
 }
 
 main()
