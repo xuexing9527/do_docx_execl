@@ -21,6 +21,7 @@ class DocReader extends BaseReader {
             this.zip = await JSZip.loadAsync(fileBuffer);
             this.documentXml = await this.zip.file("word/document.xml").async("text");
         } catch (error) {
+            console.error("Error manipulating docx path:", this.path)
             console.error("Error manipulating docx:", error);
         }
     }

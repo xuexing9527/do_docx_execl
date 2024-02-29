@@ -4,12 +4,14 @@ const fs = require('fs')
 class DocReader extends BaseReader {
 
     constructor (config = { path: '' }) {
-        super({ type: 'file', path: config.path })
+        super({ type: 'file' })
+        this.path = config.path
+        this.fileList = []
     }
 
     // 支持多级目录，暂只支持平级目录，不存储不同级目录文件名
      getFileNames (callback) {
-        // console.log(this.path)
+        console.log(this.path)
         const fsReadDir = (path) => {
             fs.readdir(path, (err, files) => {
                 // 此处容错处理
