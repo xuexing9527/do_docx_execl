@@ -1,9 +1,12 @@
+const path = require('path');
+
+// 这些路径不作为参数传递，故不必计算绝对路径
 const XlsxReader = require('../../reader/XlsxReader')
 const DocReader = require('../../reader/DocReader')
 const DocWriter = require('../../writer/DocWriter')
 
-// 这里或加 __path__
-const xlsxReader = new XlsxReader({ path: './testData/1.xlsx' })
+// 如果把 path 当参数传递，需要通过 path.resolve 计算绝对路径，以防路径错误
+const xlsxReader = new XlsxReader({ path: path.resolve(__dirname, './testData/1.xlsx') })
 const pathArr = []
 
 // consum = pathArr[1].slice(17).slice(0, 12)
@@ -100,3 +103,4 @@ async function main () {
 }
 
 main()
+console.log(path.resolve(__dirname, './testData/1.xlsx'))
