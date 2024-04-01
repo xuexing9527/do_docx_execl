@@ -18,8 +18,7 @@ src中为业务逻辑
 
 ## 其它事项(待调整)
 - 读取数据文件夹未列明
-- 因撰写文档日，执行文件各目录未做调整，执行命令暂时是到readAndWrite下执行：  
+- 执行命令：  
     ````js
-        cd src/readAndWrite
-        node index.js
+    npm start
     ````
